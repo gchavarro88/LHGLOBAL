@@ -1,6 +1,6 @@
-/home/innova/workspace/TestLHGlobal/src/main/java/com/guschaor/factory/ConexionOracle.java
-/home/innova/workspace/TestLHGlobal/src/main/java/com/guschaor/entity/Categoria.java
-/home/innova/workspace/TestLHGlobal/src/main/java/com/guschaor/dao/EventoDao.java
-/home/innova/workspace/TestLHGlobal/src/main/java/com/guschaor/dao/CategoriaDao.java
-/home/innova/workspace/TestLHGlobal/src/main/java/com/guschaor/entity/Evento.java
-/home/innova/workspace/TestLHGlobal/src/main/java/com/guschaor/bean/CategoriaBean.java
+/home/innova/workspace/LHGlobal/TestLHGlobal/src/main/java/com/guschaor/factory/ConexionOracle.java
+/home/innova/workspace/LHGlobal/TestLHGlobal/src/main/java/com/guschaor/entity/Categoria.java
+/home/innova/workspace/LHGlobal/TestLHGlobal/src/main/java/com/guschaor/bean/CategoriaBean.java
+/home/innova/workspace/LHGlobal/TestLHGlobal/src/main/java/com/guschaor/entity/Evento.java
+/home/innova/workspace/LHGlobal/TestLHGlobal/src/main/java/com/guschaor/dao/CategoriaDao.java
+/home/innova/workspace/LHGlobal/TestLHGlobal/src/main/java/com/guschaor/dao/EventoDao.java

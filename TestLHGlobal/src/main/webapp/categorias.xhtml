@@ -12,8 +12,7 @@
 	<ui:define name="content">
 		<table>
 			<tr>
-				<td width="60%" valign="top">
-					<h:form id="formDt">
+				<td width="60%" valign="top"><h:form id="formDt">
 						<p:growl id="growlDt" showDetail="true" autoUpdate="true" />
 						<center>
 							<p:dataTable rows="10" id="dtCategoria" widgetVar="dtCategoria"
@@ -44,8 +43,11 @@
 								<p:column
 									style="width: 80px; font-size: 0.8em; text-align:center;"
 									headerText="Acciones" exportable="false">
-									<p:commandButton icon="ui-icon-search" actionListener="#{categoriaBean.mostrarEventosPorCategoria(categoria)}"
-										title="Ver eventos de una Categoría" update=":formDs:,:formDl:" oncomplete="PF('dialgoEvent').show()"/>
+									<p:commandButton icon="ui-icon-search"
+										actionListener="#{categoriaBean.mostrarEventosPorCategoria(categoria)}"
+										title="Ver eventos de una Categoría"
+										update=":formDs:,:formDl:,panelCategoria"
+										oncomplete="PF('dialgoEvent').show()" />
 									<p:commandButton icon="ui-icon-pencil"
 										title="Editar una Categoría"
 										actionListener="#{categoriaBean.cargarCategoria(categoria)}"
@@ -114,127 +116,137 @@
 			</tr>
 		</table>
 
-		<p:dialog header="Eventos de una Categoría" width="80%" id="dialogEvent" widgetVar="dialgoEvent"
-			draggable="true" closable="true" modal="true" showEffect="puff" hideEffect="shake">
+		<p:dialog header="Eventos de una Categoría" width="80%"
+			id="dialogEvent" widgetVar="dialgoEvent" draggable="true"
+			closable="true" modal="true" showEffect="puff" hideEffect="shake">
+			<p:panel style="height:30px;">
+				<h:panelGrid columns="4" cellpadding="5"
+					style="margin:0 auto; float:left; font-size:0.8em;"
+					id="panelCategoria">
+					<h:outputText value="Categoría:" style="font-weight: bold;" />
+					<h:outputText value="#{categoriaBean.categoriaSeleccionada.nombre}"
+						style="text-transform: uppercase; white-space: normal;" />
+					<h:outputText value="Estado:" style="font-weight: bold;" />
+					<h:outputText
+						value="#{(categoriaBean.categoriaSeleccionada.estado == '1')?'ACTIVA':'INACTIVA'}"
+						style="text-transform: uppercase; white-space: normal;" />
+				</h:panelGrid>
+			</p:panel>
 			<table>
-			<tr>
-				<td width="60%" valign="top">
-					<h:form id="formDs">
-						<p:growl id="growlDs" showDetail="true" autoUpdate="true" />
-						<center>
-							<p:dataTable rows="10" id="dtEvento" widgetVar="dtEvento"
-								var="evento" value="#{categoriaBean.listaEventos}" 
-								resizableColumns="true" rowKey="#{evento.eventoId}"
-								paginator="true" style="width: 100%;font-size: 0.8em;"
-								emptyMessage="Sin informacion para mostrar"
-								filteredValue="#{categoriaBean.eventosFiltrados}"
-								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-								rowsPerPageTemplate="5,10,15,20,25,50" editable="false">
-								<f:facet name="header">Lista de Eventos</f:facet>
-								<p:column filterBy="#{evento.nombre}"
-									filterMatchMode="contains" sortBy="#{evento.nombre}"
-									style="width: 120px; font-size: 0.8em;" headerText="Nombre">
-									<h:outputText value="#{evento.nombre}"
-										style="text-transform: uppercase; white-space: normal;" />
-								</p:column>
-								<p:column
-									filterBy="#{categoriaBean.obtenerFormato(evento.fecha)}"
-									filterMatchMode="contains"
-									sortBy="#{categoriaBean.obtenerFormato(evento.fecha)}"
-									style="width: 60px; font-size: 0.8em; text-align:center;"
-									headerText="Fecha">
-									<h:outputText	value="#{categoriaBean.obtenerFormato(evento.fecha)}"/>
-								</p:column>
-								
-								<p:column
-									filterBy="#{evento.lugar}"
-									filterMatchMode="contains"
-									sortBy="#{evento.lugar}"
-									style="width: 100px; font-size: 0.8em; text-align:center;"
-									headerText="Lugar">
-									<h:outputText	value="#{evento.lugar}" style="text-transform: uppercase; white-space: normal;" />
-								</p:column>
-								
-								<p:column
-									style="width: 80px; font-size: 0.8em; text-align:center;"
-									headerText="Acciones" exportable="false">
-									<p:commandButton icon="ui-icon-pencil"
-										title="Editar un Evento"
-										actionListener="#{categoriaBean.cargarEvento(evento)}"
-										update=":formDl:" />
-									<p:commandButton icon="ui-icon-closethick"
-										title="Eliminar un Evento"
-										actionListener="#{categoriaBean.eliminarEvento(evento)}"
-										update=":formDs:dtEvento,:formDl:" />
-								</p:column>
+				<tr>
+					<td width="60%" valign="top"><h:form id="formDs">
+							<p:growl id="growlDs" showDetail="true" autoUpdate="true" />
+							<center>
+								<p:dataTable rows="10" id="dtEvento" widgetVar="dtEvento"
+									var="evento" value="#{categoriaBean.listaEventos}"
+									resizableColumns="true" rowKey="#{evento.eventoId}"
+									paginator="true" style="width: 100%;font-size: 0.8em;"
+									emptyMessage="Sin informacion para mostrar"
+									filteredValue="#{categoriaBean.eventosFiltrados}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+									rowsPerPageTemplate="5,10,15,20,25,50" editable="false">
+									<f:facet name="header">Lista de Eventos</f:facet>
+									<p:column filterBy="#{evento.nombre}"
+										filterMatchMode="contains" sortBy="#{evento.nombre}"
+										style="width: 120px; font-size: 0.8em;" headerText="Nombre">
+										<h:outputText value="#{evento.nombre}"
+											style="text-transform: uppercase; white-space: normal;" />
+									</p:column>
+									<p:column
+										filterBy="#{categoriaBean.obtenerFormato(evento.fecha)}"
+										filterMatchMode="contains"
+										sortBy="#{categoriaBean.obtenerFormato(evento.fecha)}"
+										style="width: 80px; font-size: 0.8em; text-align:center;"
+										headerText="Fecha">
+										<h:outputText
+											value="#{categoriaBean.obtenerFormato(evento.fecha)}" />
+									</p:column>
 
-							</p:dataTable>
-						</center>
-					</h:form></td>
-				<td width="10%"></td>
-				<td width="30%" valign="top">
-					<h:form id="formDl">
-						<p:panel header="Crear o Actualizar un Evento"
-							style="font-size: 0.8em;">
-							<h:panelGrid id="displayEvento" columns="3" cellpadding="5"
-								style="margin:0 auto;" styleClass="dialogo">
+									<p:column filterBy="#{evento.lugar}" filterMatchMode="contains"
+										sortBy="#{evento.lugar}"
+										style="width: 100px; font-size: 0.8em; text-align:center;"
+										headerText="Lugar">
+										<h:outputText value="#{evento.lugar}"
+											style="text-transform: uppercase; white-space: normal;" />
+									</p:column>
+
+									<p:column
+										style="width: 80px; font-size: 0.8em; text-align:center;"
+										headerText="Acciones" exportable="false">
+										<p:commandButton icon="ui-icon-pencil"
+											title="Editar un Evento"
+											actionListener="#{categoriaBean.cargarEvento(evento)}"
+											update=":formDl:" />
+										<p:commandButton icon="ui-icon-closethick"
+											title="Eliminar un Evento"
+											actionListener="#{categoriaBean.eliminarEvento(evento)}"
+											update=":formDs:dtEvento,:formDl:" />
+									</p:column>
+
+								</p:dataTable>
+							</center>
+						</h:form></td>
+					<td width="10%"></td>
+					<td width="30%" valign="top"><h:form id="formDl">
+							<p:panel header="Crear o Actualizar un Evento"
+								style="font-size: 0.8em;">
+								<h:panelGrid id="displayEvento" columns="3" cellpadding="5"
+									style="margin:0 auto;" styleClass="dialogo">
 
 
-								<h:outputText value="Nombre *" style="font-weight: bold" />
+									<h:outputText value="Nombre *" style="font-weight: bold" />
 
-								<p:inputText
-									value="#{categoriaBean.eventoSeleccionado.nombre}"
-									id="eventoNombre" required="true"
-									requiredMessage="Debe ingresar un nombre">
-									<f:validateLength maximum="100" for="eventoNombre" />
-								</p:inputText>
-								<p:message for="eventoNombre" display="icon" />
+									<p:inputText value="#{categoriaBean.eventoSeleccionado.nombre}"
+										id="eventoNombre" required="true"
+										requiredMessage="Debe ingresar un nombre">
+										<f:validateLength maximum="100" for="eventoNombre" />
+									</p:inputText>
+									<p:message for="eventoNombre" display="icon" />
 
-								<h:outputText value="Fecha *" style="font-weight: bold" />
-								<p:calendar id="eventoFecha"  navigator="true" readonlyInput="true"
-									value="#{categoriaBean.eventoSeleccionado.fecha}"
-									pattern="yyyy-MM-dd" required="true"
-									requiredMessage="Debe seleccionar una fecha" effect="explode">
+									<h:outputText value="Fecha *" style="font-weight: bold" />
+									<p:calendar id="eventoFecha" navigator="true"
+										readonlyInput="true"
+										value="#{categoriaBean.eventoSeleccionado.fecha}"
+										pattern="yyyy-MM-dd" required="true"
+										requiredMessage="Debe seleccionar una fecha" effect="explode">
 
-								</p:calendar>
+									</p:calendar>
 
-								<p:message for="eventoFecha" display="icon" />
-								
-								<h:outputText value="Lugar *" style="font-weight: bold" />
-								<p:inputText
-									value="#{categoriaBean.eventoSeleccionado.lugar}"
-									id="eventoLugar" required="true"
-									requiredMessage="Debe ingresar un lugar">
-									<f:validateLength maximum="100" for="eventoLugar" />
-								</p:inputText>
-								<p:message for="eventoLugar" display="icon" />
-								
-								<p:column></p:column>
-								<p:column></p:column>
-								<p:column></p:column>
-								<p:column>
-									<p:commandButton id="saveBtn" value="Guardar"
-										icon="ui-icon-disk"
-										actionListener="#{categoriaBean.persistirEvento}"
-										style="float: right;" title="Guardar Evento"
-										update=":formDs:dtEvento,:formDl:" />
-								</p:column>
-								<p:column>
-									<p:commandButton id="closeBtn" value="Limpiar"
-										icon="ui-icon-circle-arrow-w"
-										actionListener="#{categoriaBean.limpiarEvento}"
-										title="Borrar Datos" process="@this" style="float: right;"
-										update=":formDl:">
-										<p:resetInput target="displayEvento"></p:resetInput>
-									</p:commandButton>
-								</p:column>
+									<p:message for="eventoFecha" display="icon" />
 
-							</h:panelGrid>
-						</p:panel>		
-					</h:form>
-				</td>
-			</tr>
-		</table>
+									<h:outputText value="Lugar *" style="font-weight: bold" />
+									<p:inputText value="#{categoriaBean.eventoSeleccionado.lugar}"
+										id="eventoLugar" required="true"
+										requiredMessage="Debe ingresar un lugar">
+										<f:validateLength maximum="100" for="eventoLugar" />
+									</p:inputText>
+									<p:message for="eventoLugar" display="icon" />
+
+									<p:column></p:column>
+									<p:column></p:column>
+									<p:column></p:column>
+									<p:column>
+										<p:commandButton id="saveBtn" value="Guardar"
+											icon="ui-icon-disk"
+											actionListener="#{categoriaBean.persistirEvento}"
+											style="float: right;" title="Guardar Evento"
+											update=":formDs:dtEvento,:formDl:" />
+									</p:column>
+									<p:column>
+										<p:commandButton id="closeBtn" value="Limpiar"
+											icon="ui-icon-circle-arrow-w"
+											actionListener="#{categoriaBean.limpiarEvento}"
+											title="Borrar Datos" process="@this" style="float: right;"
+											update=":formDl:">
+											<p:resetInput target="displayEvento"></p:resetInput>
+										</p:commandButton>
+									</p:column>
+
+								</h:panelGrid>
+							</p:panel>
+						</h:form></td>
+				</tr>
+			</table>
 		</p:dialog>
 	</ui:define>
 

@@ -132,10 +132,12 @@ public class CategoriaDao implements Serializable
 	public String eliminarCategoria(Categoria categoria)
 	{
 		String resultMessage = "";
+		String queryEventos = "DELETE FROM eventos WHERE categoriaId="+categoria.getCategoriaId();
 		String query = "DELETE FROM categorias WHERE categoriaId="+categoria.getCategoriaId();
 		int result = 0;
 		try
 		{
+			conexion.ejecutarUpdate(queryEventos);
 			result = conexion.ejecutarUpdate(query);
 			if(result > 0)
 			{
