@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet library="css" name="default.css"/>
+        <script type="text/javascript" language="javascript" src="resources/js/locale.js"></script>
+        <title><ui:insert name="title"></ui:insert></title>
+    </h:head>
+    <h:body>
+        <div id="top">
+            <ui:include src="/resources/header.xhtml"></ui:include>
+        </div>
+        <div id="content" class="center_content" style="min-height: 450px;">
+            <ui:insert name="content">Content</ui:insert>
+        </div>
+        <div id="bottom">
+            <ui:include src="/resources/footer.xhtml"></ui:include>
+        </div>
+    </h:body>
+</html>

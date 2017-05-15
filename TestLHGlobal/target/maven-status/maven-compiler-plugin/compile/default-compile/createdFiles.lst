@@ -1,0 +1,6 @@
+com/guschaor/dao/CategoriaDao.class
+com/guschaor/dao/EventoDao.class
+com/guschaor/bean/CategoriaBean.class
+com/guschaor/entity/Categoria.class
+com/guschaor/entity/Evento.class
+com/guschaor/factory/ConexionOracle.class

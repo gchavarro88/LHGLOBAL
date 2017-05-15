@@ -1,0 +1,243 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" template="/res/template.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+	<ui:define name="title">.:LH Global - Categorias:.</ui:define>
+	<ui:define name="content">
+		<table>
+			<tr>
+				<td width="60%" valign="top">
+					<h:form id="formDt">
+						<p:growl id="growlDt" showDetail="true" autoUpdate="true" />
+						<center>
+							<p:dataTable rows="10" id="dtCategoria" widgetVar="dtCategoria"
+								var="categoria" value="#{categoriaBean.listaCategorias}"
+								resizableColumns="true" rowKey="#{categoria.categoriaId}"
+								paginator="true" style="width: 100%;font-size: 0.8em;"
+								emptyMessage="Sin informacion para mostrar"
+								filteredValue="#{categoriaBean.categoriasFiltradas}"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="5,10,15,20,25,50" editable="false">
+								<f:facet name="header">Lista de Categorías</f:facet>
+								<p:column filterBy="#{categoria.nombre}"
+									filterMatchMode="contains" sortBy="#{categoria.nombre}"
+									style="width: 160px; font-size: 0.8em;" headerText="Nombre">
+									<h:outputText value="#{categoria.nombre}"
+										style="text-transform: uppercase; white-space: normal;" />
+								</p:column>
+								<p:column
+									filterBy="#{categoriaBean.obtenerEstado(categoria.estado)}"
+									filterMatchMode="contains"
+									sortBy="#{categoriaBean.obtenerEstado(categoria.estado)}"
+									style="width: 60px; font-size: 0.8em; text-align:center;"
+									headerText="Estado">
+									<h:outputText
+										value="#{categoriaBean.obtenerEstado(categoria.estado)}"
+										style="text-transform: uppercase; white-space: normal;" />
+								</p:column>
+								<p:column
+									style="width: 80px; font-size: 0.8em; text-align:center;"
+									headerText="Acciones" exportable="false">
+									<p:commandButton icon="ui-icon-search" actionListener="#{categoriaBean.mostrarEventosPorCategoria(categoria)}"
+										title="Ver eventos de una Categoría" update=":formDs:,:formDl:" oncomplete="PF('dialgoEvent').show()"/>
+									<p:commandButton icon="ui-icon-pencil"
+										title="Editar una Categoría"
+										actionListener="#{categoriaBean.cargarCategoria(categoria)}"
+										update=":formDg:" />
+									<p:commandButton icon="ui-icon-closethick"
+										title="Eliminar una Categoría"
+										actionListener="#{categoriaBean.eliminarCategoria(categoria)}"
+										update=":formDt:dtCategoria,:formDg:" />
+								</p:column>
+
+							</p:dataTable>
+						</center>
+					</h:form></td>
+				<td width="10%"></td>
+				<td width="30%" valign="top"><h:form id="formDg">
+						<p:panel header="Crear o Actualizar una Categoría"
+							style="font-size: 0.8em;">
+							<h:panelGrid id="display" columns="3" cellpadding="5"
+								style="margin:0 auto;" styleClass="dialogo">
+
+
+								<h:outputText value="Nombre *" style="font-weight: bold" />
+
+								<p:inputText
+									value="#{categoriaBean.categoriaSeleccionada.nombre}"
+									id="categoriaNombre" required="true"
+									requiredMessage="Debe ingresar un nombre">
+									<f:validateLength maximum="100" for="categoriaNombre" />
+								</p:inputText>
+								<p:message for="categoriaNombre" display="icon" />
+
+								<h:outputText value="Estado *" style="font-weight: bold" />
+								<p:selectOneMenu id="categoriaEstado"
+									value="#{categoriaBean.categoriaSeleccionada.estado}"
+									style="width: 130px;" required="true"
+									requiredMessage="Debe seleccionar un estado" effect="explode">
+
+									<f:selectItem itemLabel="ACTIVA" itemValue="1" />
+									<f:selectItem itemLabel="INACTIVA" itemValue="0" />
+								</p:selectOneMenu>
+
+								<p:message for="categoriaEstado" display="icon" />
+								<p:column></p:column>
+								<p:column></p:column>
+								<p:column></p:column>
+								<p:column>
+									<p:commandButton id="saveBtn" value="Guardar"
+										icon="ui-icon-disk"
+										actionListener="#{categoriaBean.persistirCategoria}"
+										style="float: right;" title="Guardar Categoria"
+										update=":formDt:dtCategoria,:formDg:" />
+								</p:column>
+								<p:column>
+									<p:commandButton id="closeBtn" value="Limpiar"
+										icon="ui-icon-circle-arrow-w"
+										actionListener="#{categoriaBean.limpiarCategoria}"
+										title="Borrar Datos" process="@this" style="float: right;"
+										update=":formDg:">
+										<p:resetInput target="display"></p:resetInput>
+									</p:commandButton>
+								</p:column>
+
+							</h:panelGrid>
+						</p:panel>
+					</h:form></td>
+			</tr>
+		</table>
+
+		<p:dialog header="Eventos de una Categoría" width="80%" id="dialogEvent" widgetVar="dialgoEvent"
+			draggable="true" closable="true" modal="true" showEffect="puff" hideEffect="shake">
+			<table>
+			<tr>
+				<td width="60%" valign="top">
+					<h:form id="formDs">
+						<p:growl id="growlDs" showDetail="true" autoUpdate="true" />
+						<center>
+							<p:dataTable rows="10" id="dtEvento" widgetVar="dtEvento"
+								var="evento" value="#{categoriaBean.listaEventos}" 
+								resizableColumns="true" rowKey="#{evento.eventoId}"
+								paginator="true" style="width: 100%;font-size: 0.8em;"
+								emptyMessage="Sin informacion para mostrar"
+								filteredValue="#{categoriaBean.eventosFiltrados}"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="5,10,15,20,25,50" editable="false">
+								<f:facet name="header">Lista de Eventos</f:facet>
+								<p:column filterBy="#{evento.nombre}"
+									filterMatchMode="contains" sortBy="#{evento.nombre}"
+									style="width: 120px; font-size: 0.8em;" headerText="Nombre">
+									<h:outputText value="#{evento.nombre}"
+										style="text-transform: uppercase; white-space: normal;" />
+								</p:column>
+								<p:column
+									filterBy="#{categoriaBean.obtenerFormato(evento.fecha)}"
+									filterMatchMode="contains"
+									sortBy="#{categoriaBean.obtenerFormato(evento.fecha)}"
+									style="width: 60px; font-size: 0.8em; text-align:center;"
+									headerText="Fecha">
+									<h:outputText	value="#{categoriaBean.obtenerFormato(evento.fecha)}"/>
+								</p:column>
+								
+								<p:column
+									filterBy="#{evento.lugar}"
+									filterMatchMode="contains"
+									sortBy="#{evento.lugar}"
+									style="width: 100px; font-size: 0.8em; text-align:center;"
+									headerText="Lugar">
+									<h:outputText	value="#{evento.lugar}" style="text-transform: uppercase; white-space: normal;" />
+								</p:column>
+								
+								<p:column
+									style="width: 80px; font-size: 0.8em; text-align:center;"
+									headerText="Acciones" exportable="false">
+									<p:commandButton icon="ui-icon-pencil"
+										title="Editar un Evento"
+										actionListener="#{categoriaBean.cargarEvento(evento)}"
+										update=":formDl:" />
+									<p:commandButton icon="ui-icon-closethick"
+										title="Eliminar un Evento"
+										actionListener="#{categoriaBean.eliminarEvento(evento)}"
+										update=":formDs:dtEvento,:formDl:" />
+								</p:column>
+
+							</p:dataTable>
+						</center>
+					</h:form></td>
+				<td width="10%"></td>
+				<td width="30%" valign="top">
+					<h:form id="formDl">
+						<p:panel header="Crear o Actualizar un Evento"
+							style="font-size: 0.8em;">
+							<h:panelGrid id="displayEvento" columns="3" cellpadding="5"
+								style="margin:0 auto;" styleClass="dialogo">
+
+
+								<h:outputText value="Nombre *" style="font-weight: bold" />
+
+								<p:inputText
+									value="#{categoriaBean.eventoSeleccionado.nombre}"
+									id="eventoNombre" required="true"
+									requiredMessage="Debe ingresar un nombre">
+									<f:validateLength maximum="100" for="eventoNombre" />
+								</p:inputText>
+								<p:message for="eventoNombre" display="icon" />
+
+								<h:outputText value="Fecha *" style="font-weight: bold" />
+								<p:calendar id="eventoFecha"  navigator="true" readonlyInput="true"
+									value="#{categoriaBean.eventoSeleccionado.fecha}"
+									pattern="yyyy-MM-dd" required="true"
+									requiredMessage="Debe seleccionar una fecha" effect="explode">
+
+								</p:calendar>
+
+								<p:message for="eventoFecha" display="icon" />
+								
+								<h:outputText value="Lugar *" style="font-weight: bold" />
+								<p:inputText
+									value="#{categoriaBean.eventoSeleccionado.lugar}"
+									id="eventoLugar" required="true"
+									requiredMessage="Debe ingresar un lugar">
+									<f:validateLength maximum="100" for="eventoLugar" />
+								</p:inputText>
+								<p:message for="eventoLugar" display="icon" />
+								
+								<p:column></p:column>
+								<p:column></p:column>
+								<p:column></p:column>
+								<p:column>
+									<p:commandButton id="saveBtn" value="Guardar"
+										icon="ui-icon-disk"
+										actionListener="#{categoriaBean.persistirEvento}"
+										style="float: right;" title="Guardar Evento"
+										update=":formDs:dtEvento,:formDl:" />
+								</p:column>
+								<p:column>
+									<p:commandButton id="closeBtn" value="Limpiar"
+										icon="ui-icon-circle-arrow-w"
+										actionListener="#{categoriaBean.limpiarEvento}"
+										title="Borrar Datos" process="@this" style="float: right;"
+										update=":formDl:">
+										<p:resetInput target="displayEvento"></p:resetInput>
+									</p:commandButton>
+								</p:column>
+
+							</h:panelGrid>
+						</p:panel>		
+					</h:form>
+				</td>
+			</tr>
+		</table>
+		</p:dialog>
+	</ui:define>
+
+</ui:composition>
+
+

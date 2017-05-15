@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    template="/res/template.xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+	<ui:define name="title">.:LH Global - Inicio:.</ui:define>
+    <ui:define name="content">
+    		<center>
+    			<p:panel header="Aplicación de Prueba LH Global" style="font-size:16px;">
+    				<table style="width:100%;">
+    					 <tr>
+    						<td>
+    							<p style="white-space: normal;">
+    							La siguiente Aplicación se realiza como petición de la prueba enviada por LH Global, a continuación 
+    							se visualiza un modelo relacional entre (2) tablas (Categorías y Eventos), para lo cual se usó una 
+    							base de datos Oracle Express Edition, la cual se alojó en un Docker, el cual es un entorno virtual, 
+    							razón por la cual el puerto es diferente al utilizado normalmente en Oracle (1521), esta aplicación 
+    							se encuentra alojada en la siguiente dirección http://190.84.48.243:8080/TestLHGlobal/, el cual es un servidor
+    							gratuito que normalmente está disponible a toda hora.
+    							</p>
+    							
+    							<p>Datos de la base de datos: <br/>
+    							Hostname: 190.84.48.243<br/>
+								Port: 49161<br/>
+								Sid: xe<br/>
+								Username: system<br/>
+								Password: oracle</p>
+    						</td>
+    						
+    					</tr>
+    				</table>
+    			
+    			</p:panel>
+    		</center>
+    </ui:define>
+
+</ui:composition>
+
+
