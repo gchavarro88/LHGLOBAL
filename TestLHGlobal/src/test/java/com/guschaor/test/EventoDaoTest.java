@@ -78,6 +78,7 @@ public class EventoDaoTest extends TestCase {
 			List<Evento> listaeventos = eventoDao.leerEventos(categoria);
 			evento = encontrarEvento(listaeventos, evento.getNombre());
 			String mensaje = eventoDao.eliminarEvento(evento);
+			categoriaDao.eliminarCategoria(categoria);
 			assertEquals("El evento fue eliminado", "Se eliminó el evento " + evento.getNombre(), mensaje);
 		} catch (Exception e) 
 		{
